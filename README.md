@@ -1,4 +1,4 @@
-# Turael Skipping
+# Wilderness Slayer
 A plugin that provides the best location and information on a wilderness task when received. All information was gathered from the OSRS Gear Discord and classix_.
 
 ## Configuration

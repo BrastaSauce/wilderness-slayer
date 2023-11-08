@@ -59,8 +59,6 @@ public class WildernessSlayerPlugin extends Plugin
 	private static final Pattern KRYSTILIA_ASSIGN_MESSAGE = Pattern.compile(".*(?:Your new task is to kill \\d+) (?<name>.+)(?:.)");
 	private static final Pattern KRYSTILIA_CURRENT_MESSAGE = Pattern.compile(".*(?:You're still meant to be slaying) (?<name>.+)(?: in the Wilderness.+)");
 
-	private boolean worldPointSet = false;
-
 	@Getter
 	private Task task;
 
@@ -82,26 +80,30 @@ public class WildernessSlayerPlugin extends Plugin
 	private void setTask(String taskName)
 	{
 		task = Task.getTask(taskName);
-		createWorldPoint();
+		createWorldPoints();
 	}
 
 	private void completeTask()
 	{
 		task = null;
-		worldMapPointManager.removeIf(TaskWorldMapPoint.class::isInstance);
-		worldPointSet = false;
+		removeWorldPoints();
 	}
 
-	private void createWorldPoint()
+	private void createWorldPoints()
 	{
-		if (task != null && config.displayMapIcon() && !worldPointSet)
+		removeWorldPoints();
+		if (task != null && config.displayMapIcon())
 		{
 			for (WorldPoint worldPoint : task.getWorldPoints())
 			{
 				worldMapPointManager.add(new TaskWorldMapPoint(worldPoint));
 			}
-			worldPointSet = true;
 		}
+	}
+
+	private void removeWorldPoints()
+	{
+		worldMapPointManager.removeIf(TaskWorldMapPoint.class::isInstance);
 	}
 
 	@Subscribe
@@ -159,7 +161,7 @@ public class WildernessSlayerPlugin extends Plugin
 	{
 		overlayManager.remove(overlay);
 		task = null;
-		worldMapPointManager.removeIf(TaskWorldMapPoint.class::isInstance);
+		removeWorldPoints();
 	}
 
 	@Subscribe
@@ -167,10 +169,7 @@ public class WildernessSlayerPlugin extends Plugin
 	{
 		if (event.getGroup().equals("wildernessslayer"))
 		{
-			worldMapPointManager.removeIf(TaskWorldMapPoint.class::isInstance);
-			worldPointSet = false;
-
-			createWorldPoint();
+			createWorldPoints();
 		}
 	}
 

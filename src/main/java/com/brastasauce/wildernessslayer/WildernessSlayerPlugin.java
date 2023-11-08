@@ -32,8 +32,8 @@ import net.runelite.api.Client;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.widgets.ComponentID;
 import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
@@ -110,8 +110,8 @@ public class WildernessSlayerPlugin extends Plugin
 	public void onGameTick(GameTick gameTick)
 	{
 		// Getting tasks
-		Widget npcName = client.getWidget(WidgetInfo.DIALOG_NPC_NAME);
-		Widget npcDialog = client.getWidget(WidgetInfo.DIALOG_NPC_TEXT);
+		Widget npcName = client.getWidget(ComponentID.DIALOG_NPC_NAME);
+		Widget npcDialog = client.getWidget(ComponentID.DIALOG_NPC_TEXT);
 
 		if (npcDialog != null && npcName.getText().equals(KRYSTILIA))
 		{
